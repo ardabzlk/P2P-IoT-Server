@@ -44,3 +44,31 @@ class Weather(Document):
             }
         }
         return weather_dict
+    
+# write post method for Weather document
+def post_weather_data(data):
+    try:
+        weather = Weather(
+            _id=data["_id"],
+            sensor=data["sensor"],
+            timestamp=data["timestamp"],
+            temperature=TemperatureData(
+                value=data["temperature"]["value"],
+                unit=data["temperature"]["unit"]
+            ),
+            humidity=HumidityData(
+                value=data["humidity"]["value"],
+                unit=data["humidity"]["unit"]
+            ),
+            location=LocationData(
+                city=data["location"]["city"],
+                country=data["location"]["country"],
+                latitude=data["location"]["latitude"],
+                longitude=data["location"]["longitude"]
+            )
+        )
+        weather.save()
+        return True
+    except Exception as e:
+        print("Error in post_weather_data:", str(e))
+        return False

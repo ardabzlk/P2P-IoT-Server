@@ -1,7 +1,7 @@
 # imports
 import json
 from flask import Flask
-from src.controllers.controller_main import weather_stats, process_data
+from src.controllers.controller_main import weather_stats
 from flask_cors import CORS
 from mongoengine import connect
 
@@ -30,10 +30,8 @@ connect(host=DB_URI)
 # * Login Register routes start
 
 app.add_url_rule("/weather-stats", view_func=weather_stats,
-                 methods=["GET"])
+                 methods=["GET", "POST"])
 
-app.add_url_rule("/post-test", view_func=process_data,
-                 methods=["POST"])
 
 
 
