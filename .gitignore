@@ -3,3 +3,6 @@ config.json
 venv/
 
 *.pyc
+
+
+_pycache_/
