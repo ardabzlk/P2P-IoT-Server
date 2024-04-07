@@ -35,4 +35,4 @@ app.add_url_rule("/weather-stats", view_func=weather_stats,
 
 
 
-app.run(host="0.0.0.0", port=8000)
+
