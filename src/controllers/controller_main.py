@@ -30,7 +30,7 @@ def post_weather_data(data):
         )
         # check if the data is already present in the database
         if Weather.objects(_id=data["_id"]).count() > 0:
-            return False
+            return "Data already exists"
         else:
             weather.save()
             return True
@@ -71,7 +71,7 @@ def weather_stats():
         try:
             data = request.get_json()
             # if post weather turns False throw bad request
-            if not post_weather_data(data):
+            if post_weather_data(data) == "Data already exists":
                 response = ResponseModel()
                 return response.get_bad_request_response("Data already exists")
             else:
