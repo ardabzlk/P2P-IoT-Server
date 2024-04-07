@@ -35,7 +35,7 @@ def post_weather_data(data):
             
         )
         # check if the data is already present in the database
-        if Weather.objects(timestamp=data["timestamp"]).first():
+        if Weather.objects(timestamp=data["timestamp"]["value"]).first():
             return "Data already exists"
         else:
             weather.save()
