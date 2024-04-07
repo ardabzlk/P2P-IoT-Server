@@ -86,4 +86,4 @@ def weather_stats():
                 return response.get_success_response()
         except Exception as e:
             response = ResponseModel()
-            return response.get_bad_request_response(e)
+            return response.get_bad_request_response(str(e))
