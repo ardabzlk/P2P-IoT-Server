@@ -84,6 +84,6 @@ def weather_stats():
                 post_weather_data(data)
                 response = ResponseModel(data=data)
                 return response.get_success_response()
-        except:
+        except Exception as e:
             response = ResponseModel()
-            return response.get_bad_request_response("Invalid request")
+            return response.get_bad_request_response(e)
