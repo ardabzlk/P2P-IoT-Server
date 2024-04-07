@@ -23,7 +23,8 @@ class AQIData(EmbeddedDocument):
 class Weather(Document):
     meta = {'collection': 'weather_data'}
     _id = ObjectIdField()
-    timestamp = DateTimeField() # format is "2021-08-09T12:00:00"
+    # integer time stampss
+    timestamp = IntField()
     temperature = EmbeddedDocumentField(TemperatureData)
     humidity = EmbeddedDocumentField(HumidityData)
     tvoc = EmbeddedDocumentField(TVOCData)
