@@ -11,7 +11,7 @@ def post_weather_data(data):
     try:
         weather = Weather(
 
-            timestamp= data["timestamp"],
+            timestamp= data["timestamp"]["value"],
             temperature=TemperatureData(
                 value=data["temperature"]["value"],
                 unit=data["temperature"]["unit"]
