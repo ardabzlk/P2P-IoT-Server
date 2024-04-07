@@ -1,4 +1,4 @@
-from src.models.weather_stats_model import Weather, TemperatureData, HumidityData, LocationData
+from src.models.weather_stats_model import Weather, TemperatureData, HumidityData, TVOCData, CO2Data, AQIData
 from src.models.main_model import ResponseModel
 import json
 from flask import request
@@ -11,8 +11,7 @@ def post_weather_data(data):
 
         weather = Weather(
             _id=data["_id"],
-            sensor=data["sensor"],
-            timestamp=datetime.strptime(data["timestamp"], "%Y-%m-%d %H:%M:%S"),  # Convert timestamp to datetime object
+            timestamp= data.timestamp,  # Convert timestamp to datetime object
             temperature=TemperatureData(
                 value=data["temperature"]["value"],
                 unit=data["temperature"]["unit"]
@@ -21,12 +20,19 @@ def post_weather_data(data):
                 value=data["humidity"]["value"],
                 unit=data["humidity"]["unit"]
             ),
-            location=LocationData(
-                city=data["location"]["city"],
-                country=data["location"]["country"],
-                latitude=data["location"]["latitude"],
-                longitude=data["location"]["longitude"]
+            tvoc=TVOCData(
+                value=data["tvoc"]["value"],
+                unit=data["tvoc"]["unit"]
+            ),
+            co2=CO2Data(
+                value=data["co2"]["value"],
+                unit=data["co2"]["unit"]
+            ),
+            aqi=AQIData(
+                value=data["aqi"]["value"],
+                unit=data["aqi"]["unit"]
             )
+            
         )
         # check if the data is already present in the database
         if Weather.objects(_id=data["_id"]).count() > 0:

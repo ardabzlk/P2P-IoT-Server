@@ -8,25 +8,34 @@ class HumidityData(EmbeddedDocument):
     value = FloatField()
     unit = StringField()
 
-class LocationData(EmbeddedDocument):
-    city = StringField()
-    country = StringField()
-    latitude = FloatField()
-    longitude = FloatField()
+class TVOCData(EmbeddedDocument):
+    value = FloatField()
+    unit = StringField()
+
+class CO2Data(EmbeddedDocument):
+    value = FloatField()
+    unit = StringField()
+
+class AQIData(EmbeddedDocument):
+    value = FloatField()
+    unit = StringField()
 
 class Weather(Document):
     meta = {'collection': 'weather_data'}
     _id = StringField(required=True, primary_key=True)
-    sensor = StringField(required=True)
     timestamp = DateTimeField(required=True)
     temperature = EmbeddedDocumentField(TemperatureData)
     humidity = EmbeddedDocumentField(HumidityData)
-    location = EmbeddedDocumentField(LocationData)
+    tvoc = EmbeddedDocumentField(TVOCData)
+    co2 = EmbeddedDocumentField(CO2Data)
+    aqi = EmbeddedDocumentField(AQIData)
+
+
+    
 
     def to_dict(self):
         # Convert the Weather object to a dictionary
-        weather_dict = {
-            "sensor": self.sensor,
+        weather_dict = {           
             "timestamp": self.timestamp.isoformat(),
             "temperature": {
                 "value": self.temperature_value,
@@ -36,12 +45,19 @@ class Weather(Document):
                 "value": self.humidity_value,
                 "unit": self.humidity_unit
             },
-            "location": {
-                "city": self.location_city,
-                "country": self.location_country,
-                "latitude": self.location_latitude,
-                "longitude": self.location_longitude
+            "tvoc": {
+                "value": self.tvoc_value,
+                "unit": self.tvoc_unit
+            },
+            "co2": {
+                "value": self.co2_value,
+                "unit": self.co2_unit
+            },
+            "aqi": {
+                "value": self.aqi_value,
+                "unit": self.aqi_unit
             }
+
         }
         return weather_dict
     
