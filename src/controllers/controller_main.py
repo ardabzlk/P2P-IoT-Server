@@ -1,7 +1,7 @@
 from src.models.weather_stats_model import Weather, TemperatureData, HumidityData, LocationData
 from src.models.main_model import ResponseModel
 import json
-from flask import jsonify, request, make_response
+from flask import request
 
    
 
@@ -28,8 +28,12 @@ def post_weather_data(data):
                 longitude=data["location"]["longitude"]
             )
         )
-        weather.save()
-        return True
+        # check if the data is already present in the database
+        if Weather.objects(_id=data["_id"]).count() > 0:
+            return False
+        else:
+            weather.save()
+            return True
     except Exception as e:
         print("Error in post_weather_data:", str(e))
         return False
@@ -66,9 +70,14 @@ def weather_stats():
     elif request.method == "POST":
         try:
             data = request.get_json()
-            post_weather_data(data)
-            response = ResponseModel(data=data)
-            return response.get_success_response()
+            # if post weather turns False throw bad request
+            if not post_weather_data(data):
+                response = ResponseModel()
+                return response.get_bad_request_response("Data already exists")
+            else:
+                post_weather_data(data)
+                response = ResponseModel(data=data)
+                return response.get_success_response()
         except:
             response = ResponseModel()
             return response.get_bad_request_response()

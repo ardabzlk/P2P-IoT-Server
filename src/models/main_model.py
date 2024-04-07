@@ -53,10 +53,11 @@ class ResponseModel:
             returns a unauthorized response with "unauthorized" message and 401 status code
     """
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, msg=None):
         # *The constructor for ResponseModel class
         
         self.data = data
+        self.msg = msg
 
     # only this response will return data with success message and 200 status code
     def get_success_response(self):
@@ -71,10 +72,11 @@ class ResponseModel:
             "msg": StatusCodeEnums.not_found["msg"],
         }, StatusCodeEnums.not_found["code"])
 
-    def get_bad_request_response(self):
+    def get_bad_request_response(self, msg):
         # return a bad request response with "bad request" message and 400 status code
         return ({
             "msg": StatusCodeEnums.bad_request["msg"],
+            "additional_info": msg,
         }, StatusCodeEnums.bad_request["code"])
 
     def get_unauthorized_response(self):
