@@ -59,8 +59,7 @@ def weather_stats():
             json_data = q_set.to_json()
             dicts = json.loads(json_data)
             response = ResponseModel(dicts)
-
-            return response.get_success_response()
+            return "arda"
         except:
             response = ResponseModel()
             return response.get_bad_request_response()
