@@ -2,14 +2,16 @@ from src.models.weather_stats_model import Weather, TemperatureData, HumidityDat
 from src.models.main_model import ResponseModel
 import json
 from flask import request
+import datetime
 
    
 
 def post_weather_data(data):
+ 
     try:
         weather = Weather(
-            _id=data["_id"],
-            timestamp= data.timestamp,  # Convert timestamp to datetime object
+
+            timestamp= datetime.datetime.strptime(data["timestamp"], "%Y-%m-%dT%H:%M:%S"),
             temperature=TemperatureData(
                 value=data["temperature"]["value"],
                 unit=data["temperature"]["unit"]
@@ -33,7 +35,7 @@ def post_weather_data(data):
             
         )
         # check if the data is already present in the database
-        if Weather.objects(_id=data["_id"]).count() > 0:
+        if Weather.objects(timestamp=data["timestamp"]).first():
             return "Data already exists"
         else:
             weather.save()
@@ -84,4 +86,4 @@ def weather_stats():
                 return response.get_success_response()
         except:
             response = ResponseModel()
-            return response.get_bad_request_response()
+            return response.get_bad_request_response("Invalid request")

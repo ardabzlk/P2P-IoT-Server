@@ -23,7 +23,7 @@ class AQIData(EmbeddedDocument):
 class Weather(Document):
     meta = {'collection': 'weather_data'}
     _id = ObjectIdField()
-    timestamp = DateTimeField(required=True)
+    timestamp = DateTimeField() # format is "2021-08-09T12:00:00"
     temperature = EmbeddedDocumentField(TemperatureData)
     humidity = EmbeddedDocumentField(HumidityData)
     tvoc = EmbeddedDocumentField(TVOCData)
@@ -32,6 +32,32 @@ class Weather(Document):
 
 
     
+    # example json payload
+    """
+    {
+        "timestamp": "2021-08-09T12:00:00",
+        "temperature": {
+            "value": 25,
+            "unit": "C"
+        },
+        "humidity": {
+            "value": 10,
+            "unit": "%"
+        },
+        "tvoc": {
+            "value": 10,
+            "unit": "ppb"
+        },
+        "co2": {
+            "value": 10,
+            "unit": "ppm"
+        },
+        "aqi": {
+            "value": 10,
+            "unit": "ppm"
+        }
+    }
+    """
 
     def to_dict(self):
         # Convert the Weather object to a dictionary
