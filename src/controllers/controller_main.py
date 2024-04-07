@@ -7,8 +7,6 @@ from flask import request
 
 def post_weather_data(data):
     try:
-        from datetime import datetime  # Import the datetime module
-
         weather = Weather(
             _id=data["_id"],
             timestamp= data.timestamp,  # Convert timestamp to datetime object

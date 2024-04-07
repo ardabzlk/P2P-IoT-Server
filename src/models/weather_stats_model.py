@@ -22,7 +22,7 @@ class AQIData(EmbeddedDocument):
 
 class Weather(Document):
     meta = {'collection': 'weather_data'}
-    _id = StringField(required=True, primary_key=True)
+    _id = ObjectIdField()
     timestamp = DateTimeField(required=True)
     temperature = EmbeddedDocumentField(TemperatureData)
     humidity = EmbeddedDocumentField(HumidityData)
