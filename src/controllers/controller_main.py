@@ -1,3 +1,4 @@
+
 from src.models.weather_stats_model import Weather, TemperatureData, HumidityData, TVOCData, CO2Data, AQIData
 from src.models.main_model import ResponseModel
 import json
@@ -9,9 +10,20 @@ import datetime
 def post_weather_data(data):
  
     try:
+        # Get the current time in UTC
+        utc_time = datetime.datetime.utcnow()
+
+        # Create a timezone object for GMT+2
+        gmt_plus_2 = datetime.timezone(datetime.timedelta(hours=4))
+
+        # Convert the UTC time to GMT+2
+        gmt_plus_2_time = utc_time.astimezone(gmt_plus_2)
+
+        # Convert the GMT+2 time to timestamp
+        _timestamp = gmt_plus_2_time.timestamp()
         weather = Weather(
 
-            timestamp= data["timestamp"]["value"],
+            timestamp= _timestamp,
             temperature=TemperatureData(
                 value=data["temperature"]["value"],
                 unit=data["temperature"]["unit"]
@@ -72,7 +84,7 @@ def weather_stats():
             return response.get_success_response()
         except:
             response = ResponseModel()
-            return response.get_bad_request_response()
+            return response.get_bad_request_response("error")
     elif request.method == "POST":
         try:
             data = request.get_json()
