@@ -29,7 +29,7 @@ connect(host=DB_URI)
 # ----------------------------------------------------
 # * Login Register routes start
 
-app.add_url_rule("/weather-stats", view_func=weather_stats,
+app.add_url_rule("/api/weather-stats", view_func=weather_stats,
                  methods=["GET", "POST"])
 
 
