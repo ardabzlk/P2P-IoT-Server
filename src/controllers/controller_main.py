@@ -82,9 +82,9 @@ def weather_stats():
             dicts = json.loads(json_data)
             response = ResponseModel(dicts)
             return response.get_success_response()
-        except:
+        except Exception as e:
             response = ResponseModel()
-            return response.get_bad_request_response("error")
+            return response.get_bad_request_response(str(e))
     elif request.method == "POST":
         try:
             data = request.get_json()
