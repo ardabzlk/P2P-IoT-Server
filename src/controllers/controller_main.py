@@ -1,4 +1,3 @@
-
 from src.models.weather_stats_model import Weather, TemperatureData, HumidityData, TVOCData, CO2Data, AQIData
 from src.models.main_model import ResponseModel
 import json
@@ -46,12 +45,9 @@ def post_weather_data(data):
             )
             
         )
-        # check if the data is already present in the database
-        if Weather.objects(timestamp=data["timestamp"]["value"]).first():
-            return "Data already exists"
-        else:
-            weather.save()
-            return True
+
+        weather.save()
+           
     except Exception as e:
         print("Error in post_weather_data:", str(e))
         return False
@@ -88,14 +84,10 @@ def weather_stats():
     elif request.method == "POST":
         try:
             data = request.get_json()
-            # if post weather turns False throw bad request
-            if post_weather_data(data) == "Data already exists":
-                response = ResponseModel()
-                return response.get_bad_request_response("Data already exists")
-            else:
-                post_weather_data(data)
-                response = ResponseModel(data=data)
-                return response.get_success_response()
+  
+            post_weather_data(data)
+            response = ResponseModel(data='Data saved successfully')
+            return response.get_success_response()
         except Exception as e:
             response = ResponseModel()
             return response.get_bad_request_response(str(e))
